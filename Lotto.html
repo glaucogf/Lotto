@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta	charset="utf-8">
+	<title>Color Game</title>
+	<link rel="stylesheet" type="text/css" href="./css/Lotto.css">
+    <!-- Bootstrap CSS 
+    
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"  >
+    -->
+  <!--  TUVE QUE PONER JQUERY EN EL HEADER PARA ASEGURARME-->   
+  <!--  QUE FUNCIONARIA EN MI PROGRAMA DE JAVASCRIPT ColorGame.js -->  
+  <!--                 me daba error de UNREFERENCED $ o algo asi -->  
+
+<script type="text/javascript" src="lib/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+	<h1 id="elheader" >The Great <br> <span id="rgbHeader"> RGB </span> <br> LOTTO And Color Game</h1>
+	<div id="strip" >
+	
+		<button id="newButton" class="botones">New Colors</button>
+		<span id="message" ></span> 
+		<button id="btPlay"  class="botones">LOTTO</button>
+		<button id="btPower"  class="botones">POWER</button>
+		<button id="btMega"  class="botones">MEGA</button>
+		<button id="btEasy"  class="botones toglebotones">Easy</button>
+		<button id="btHard"  class="botones toglebotones">Hard</button>			 			
+	</div>
+	
+	<div id="container" >
+		<!-- * <div class="square"><p class="number"></p></div> -->
+		 <div class="square"> </div> 
+		 <div class="square"> </div> 
+		 <div class="square"> </div> 
+		 <div class="square"> </div> 
+		 <div class="square"> </div> 
+		 <div class="square"> </div> 
+
+		<p class="number"></p>
+		<p class="number"></p>
+		<p class="number"></p>
+		<p class="number"></p>
+		<p class="number"></p>
+		<p class="number"></p>
+
+	</div>
+ 
+
+</body>
+
+<script type="text/javascript" src="lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="Lotto.js"></script>
+
+</html>

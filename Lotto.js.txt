@@ -1,0 +1,417 @@
+//function preguntar(boton)
+//	{
+      
+//}
+
+// **************************************************************************************
+// 									THE PROGRAM STARTS HERE
+// **************************************************************************************		
+
+
+// uso de const para declarar variable constante y poder usarla mas abajo
+const fondo="#232323";
+
+//    declaro variable que guarda el objeto   
+//        newButton
+//     LUEGO cambiaré la propiedad  innerTEXT para cambiar el TITULO
+var nb = document.getElementById("newButton");
+
+// Variable GLOBAL para Color elegido
+// todas estas variable son GLOBALES en realidad
+var pickedColor="";
+
+//  Cantidad de cuadros con los que empezaremos
+var nCuadros= 6 
+//var alreadyPlayed = 0;
+
+
+// El boton HARD es el modo por DEFAULT asi que lo ponemos como SELECCIONADO
+// y lo ponemos como DISABLED 
+var OtrHard= document.getElementById('btHard');
+$(OtrHard).toggleClass("SelectedBtn");	
+//$(OtrHard).toggleClass("SelectedBtnHard");	
+$(OtrHard).attr('disabled',true);
+
+
+// Creo objeto con todos los cuadros
+// fijarse claro el uso de la funcion  
+//querySelectorAll
+squares = document.querySelectorAll(".square");
+numbers = document.querySelectorAll(".number");
+
+//Llamo rutina para llenar los cuadros al principio del programa y lo puedo
+//invocar tambien con un boton
+Inicio(nCuadros);
+ 
+
+ /////////////////////////////////////////////////////////////////////////////////////////////////
+ // Codigo JQUERY que se ejecuta luego que el programa esta cargado.
+/////////////////////////////////////////////////////////////////////////////////////////////////
+$(document).ready(function () {
+
+
+
+
+			/// Ejecuto este por defecto
+				PlayUSA(5,69,26,1);
+ 
+
+
+
+
+
+	// Agrego EVENTO CLICK a todos los objetos con la clase
+	// .botones
+	$(".botones").click( function() {
+
+		
+		// uso de jQuery para atributo ID
+		var SwBotones = $(this).attr('id') ;
+		
+		// si el boton es diferente a NEW GAME o PLAY AGAIN 
+		if (SwBotones != 'newButton' )
+		{
+
+			//Elijo los botones que pueden cambiar de SELECCION
+			var toglebotones = document.querySelectorAll(".toglebotones");
+			$(toglebotones).toggleClass("SelectedBtn");	
+
+			var OtrHard = document.getElementById('btHard')
+			var OtrEasy = document.getElementById('btEasy');
+
+		}
+
+		// uso del SWITCH para elegir diferentes botones clickeados	 
+		switch (SwBotones )
+		{
+			case "newButton": //Ejecuto RUTINA que llena los 6 CUADROS
+				Inicio(nCuadros);
+
+				break;
+
+			case "btEasy":  //Ejecuto RUTINA que llena los 6 CUADROS de NUEVO y cambio orden de BOTONES ELEGIBLES
+				Inicio(nCuadros);
+				$(OtrEasy).attr('disabled',true);
+				$(OtrHard).attr('disabled',false);	
+  				
+				// Oculto los ultimos 3 CUADROS 
+				squares[3].setAttribute('hidden',false);
+				squares[4].setAttribute('hidden',false);
+				squares[5].setAttribute('hidden',false);
+		 
+				break;
+			
+			case "btHard":  //CAMBIO el orden de BOTONES ELEGIBLES y muestro todos los cuadros
+				$(OtrHard).attr('disabled',true);
+				$(OtrEasy).attr('disabled',false);
+				$(squares).attr('hidden',false);
+		
+				break;
+
+
+			case "btPlay":  //GENERO NUMEROS DE LOTTO GANADORES.
+				var f = validateL(6,40);
+				//console.log(f);
+
+				for (var i=0; i < 6; i++ )  // asigno los valores del ARRAY a cada cuadro como BACKGROUND
+				{
+				 	squares[i].innerHTML = f[i];
+
+				 	//squares[i].innerHTML = f[i];
+				 	//squares[i].style.background = coloresDyn[i];
+				}
+
+			squares[5].style.background = "white";
+ 				squares[5].style.color = "#000000";
+
+				break;
+
+
+			case "btPower":  //GENERO NUMEROS DE LOTTO GANADORES.
+ 
+				PlayUSA(5,69,26,1)
+				break;
+
+
+
+
+
+			case "btMega":  //GENERO NUMEROS DE LOTTO GANADORES.
+
+				PlayUSA(5,70,25,2)
+				/*
+				var f = validateL(5,70);
+				//console.log(f);
+
+				for (var i=0; i < 5; i++ )  // asigno los valores del ARRAY a cada cuadro como BACKGROUND
+				{
+				 	//squares[i].innerHTML = f[i];
+
+				 	squares[i].innerHTML = f[i];
+				 	//squares[i].style.background = coloresDyn[i];
+				}
+
+
+				var f = validateL(1,25);
+				//console.log(f);
+ 				squares[5].innerHTML = f[0];
+
+				 	//squares[i].innerHTML = f[i];
+				 	//squares[i].style.background = coloresDyn[i];
+ */
+
+				break;				
+
+		}
+
+
+
+	}  ) ; 
+
+	// Pregunto si ha acertado al clickear un cuadro
+	$("div.square").click(function () {
+		//var clicked = document.createElement("div");
+		var ColorBack = this.style.background;
+		var end=ColorBack.indexOf(")");
+		ClickedColor=(ColorBack.substring(0,end+1  ) ) ;
+
+ 
+ 		// pickedColor ahora tiene un valor seleccionado como RESPUESTA CORRECTA
+		if (ClickedColor==pickedColor)
+		{
+			//SELECCIONO CON jQuery todos los DIVS con la CLASE square y 
+			// le pongo como ATRIBUTO con el metodo CSS el background como el que
+			// acabamos de clickear
+			$("div.square").css("background",ClickedColor);
+ 			nb.innerText="Play Again";
+		}
+		else
+		{
+			this.style.background=fondo;
+		}
+ 
+	});
+});
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+function Inicio(nNumber)
+{
+	//Pongo titulo por defecto al boton
+	nb.innerHTML="New Colors";		
+
+	// le doy colores RANDOM a los cuadros
+	llenaCuadros(nNumber)
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+function llenaCuadros(nNumber)
+{
+
+const nCuadros=nNumber; // HAGO constante IGUAL a PARAMETRO 
+
+let coloresDyn= new Array(nCuadros) ; // creo un ARRAY del tamano del PARAMETRO
+
+coloresDyn=genColors(nCuadros); // llamo function para generar colores RANDOM y devuelve un ARRRAY
+  
+for (var i=0; i < nNumber; i++ )  // asigno los valores del ARRAY a cada cuadro como BACKGROUND
+	{
+	 	squares[i].style.background = coloresDyn[i];
+	}
+
+	// uso funcion para tomar un color RANDOM del arreglo que ya tengo y lo hago el COLOR GANADOR
+	 pickedColor=coloresDyn[chooseWinColor(nNumber)]; 
+
+	 var elHeader= document.getElementById("rgbHeader"); 
+	 elHeader.innerHTML = pickedColor;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
+function genColors(nColors)
+{
+    var RetArray= new Array();
+  
+ 	for (var counter=0; counter<nColors; counter++)
+ 	{
+ 		
+ 		RetArray.push(pickColor() );
+  	}
+
+ 	return RetArray;
+   
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+function pickColor()
+{
+
+	 let r= Math.floor(Math.random()*255);
+	 let g= Math.floor(Math.random()*255);
+	 let b= Math.floor(Math.random()*255);
+	 
+	 let rgbColor='rgb('+r+', ' +g+', ' +b+')';
+
+	 
+	 return rgbColor;
+ }
+
+////////////////////////////////////////////////////////////////////////////////////////
+function chooseWinColor(nNumber)
+{
+
+	var retorno=(Math.floor(Math.random()*nNumber));
+	return retorno;  
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+
+function Lottod(pick =6 ,limit=40 )
+{
+	const newarr =[];
+
+	// Creo arreglo de numeros para escoger
+	const n = [];
+	for (i=1; i <= limit ; i++)
+	{
+		n[i]=i;
+	}
+
+	// Recorro arreglo de opciones las cantidad de veces
+	// que se ha pedido.
+	for (x=1; x <= pick ; x++)
+	{
+		// Escojo numero al azar del arreglo.
+		let arr=n[Math.floor(Math.random()*n.length)];
+
+		//hago el indice indefinido para obligarlo a buscar un indice verdadero antes de asignar
+		/*
+		index = undefined
+
+		while (index !== undefined)
+		{
+			// Escojo el indice del arreglo seleccionado y guardo en variable
+		   index = n.indexOf(arr) ;
+ 
+		}
+		*/
+		   index = n.indexOf(arr) ;
+
+
+		// saco el elemento del arreglo segun el indice
+		// y agrego al arreglo de respuesta.
+		n.splice(index,1);
+ 		//console.log(index);
+		//console.log(n);
+		newarr.push(arr);
+	}
+  
+	return newarr;
+}
+
+
+function validateL(pick,limit)
+{
+	let arr=[];
+	let ans=false;
+
+	let dup=true;
+	let und=true;
+
+	outer: while (dup == true || und == true)
+	{
+		arr=Lottod(pick,limit);
+		//console.log(arr)
+ 
+ // verifico que no existan "undefined"
+		for (a=0; a<pick; a++)
+		{
+			if (arr[a] == undefined)
+			{
+				//console.log("und");
+				continue outer;
+			}
+		}
+
+		und = false;
+		//console.log(und)
+ 		let b=[];
+ 		b=arr.sort();
+
+ // verifico que no existan duplicados
+		for (a=0; a<pick; a++)
+		{
+			//console.log(b);
+			if (b[a] == b[a+1])
+			{
+				//console.log("dup");
+				continue outer;
+			}
+		}
+
+//		console.log(dup)
+		dup = false;
+
+	}
+
+	return arr.sort(function(a,b) {return a-b});
+
+}
+
+
+function PlayUSA (pick,limit,limitPower,color)
+{
+
+				var f = validateL(pick,limit);
+ 
+				for (var i=0; i < 5; i++ )  // asigno los valores del ARRAY a cada cuadro como BACKGROUND
+				{
+ 				 	squares[i].innerHTML = f[i];
+ 				}
+
+
+				var f = validateL(1,limitPower);
+				//console.log(f);
+ 				squares[5].innerHTML = f[0];
+
+ 				console.log(color);
+
+ 				if (color==1)
+ 				{
+
+ 				squares[5].style.background = "red";
+ 				squares[5].style.color = "#ffffff";
+ 				}
+ 				else
+ 				{
+ 				squares[5].style.background = "yellow";
+ 				squares[5].style.color = "#000000";
+
+ 				}
+
+
+
+ 
+
+}
+
+// Ejemplo de uso sin parametros.
+//var f = validateL(6,40);
+
+//console.log(f);
+
+
+// Ejemplo de uso con parametros
+//f = Lottod(12,100);
+
+//console.log(f);
+
+////////////////////////////////////////////////////////////////////////////////////////
+                //////////             END            ////////////////
+////////////////////////////////////////////////////////////////////////////////////////                

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta	charset="utf-8">
+	<title>Loto and Color Game</title>
+	<!-- 
+	<meta name="viewport" 
+      content="user-scalable=yes,width=device-width" />
+-->  
+
+	<link rel="stylesheet" type="text/css" href="./css/Lotto.css">
+    <!-- Bootstrap CSS 
+    
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"  >
+    -->
+  <!--  TUVE QUE PONER JQUERY EN EL HEADER PARA ASEGURARME-->   
+  <!--  QUE FUNCIONARIA EN MI PROGRAMA DE JAVASCRIPT ColorGame.js -->  
+  <!--                 me daba error de UNREFERENCED $ o algo asi -->  
+
+<script type="text/javascript" src="lib/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+	<h1 id="elheader" >The Great LOTO And Color Game <br> <span id="rgbHeader"> RGB </span> 
+	<span class="lottotype" id="lottotype">  </span> 
+</h1>
+	<div id="strip" >
+	
+		<button id="newButton" class="botones"   >[ New Colors ]</button>
+		<span id="message" ></span> 
+		<button id="btPlay"  class="botones blotto" >[ LOTTO ]</button>
+		<button id="btPower"  class="botones bpower">[ POWER ]</button>
+		<button id="btMega"  class="botones bmega">[ MEGA ]</button>
+		<button id="btEasy"  class="botones toglebotones">Easy</button>
+		<button id="btHard"  class="botones toglebotones">Hard</button>			 			
+	</div>
+	
+
+<div id="stripMobile" >
+	
+		<button id="newButton" class="botones"   >[ New Colors ]</button>
+		<span id="message" ></span> 
+		<button id="btPlay"  class="botones blotto" >[ LOTTO ]</button>
+		<button id="btPower"  class="botones bpower">[ POWER ]</button>
+		<button id="btMega"  class="botones bmega">[ MEGA ]</button>
+		<button id="btEasy"  class="botones toglebotones">Easy</button>
+		<button id="btHard"  class="botones toglebotones">Hard</button>		 			
+	</div>
+	
+
+
+
+	<div id="container" >
+		<!-- * <div class="square"><p class="number"></p></div> -->
+		<div class="square"> </div> 
+		<div class="square"> </div> 
+		<div class="square"> </div> 
+		<div class="square"> </div> 
+		<div class="square"> </div> 
+		<div class="square"> </div> 
+
+		<p class="number"></p>
+		<p class="number"></p>
+		<p class="number"></p>
+		<p class="number"></p>
+		<p class="number"></p>
+		<p class="number"></p>
+
+	</div>
+ 
+
+</body>
+
+<script type="text/javascript" src="lib/bootstrap.min.js"></script>
+<script type="text/javascript" src="Lotto.js"></script>
+
+</html>
